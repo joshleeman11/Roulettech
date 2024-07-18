@@ -1,0 +1,122 @@
+body {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+}
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "recipes recipes delete-recipe"
+        "recipes recipes add-recipe"
+        "recipes recipes check-recipe";
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+    height:100vh;
+    background-color: #2196f3;
+    padding: 10px;
+}
+
+.grid-container > div {
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 10px 10;
+    font-size: 20px;
+    overflow-y: auto;
+}
+
+.header {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+}
+
+.top-right {
+    margin-left: auto; /* Pushes the content to the right */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+}
+#community-recipes {
+    grid-area: recipes;
+    flex: 0 0 300px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+#delete-recipe {
+    grid-area: add-recipe;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    flex: 1;
+    height: 90px;
+}
+
+#add-recipe {
+    grid-area: delete-recipe;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    flex: 1;
+    min-height: 180px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 15px;
+}
+
+#check-recipe {
+    grid-area: check-recipe;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+button {
+    background-color: #2196f3; /* Green background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 5px 10px; /* Padding */
+    text-align: center; /* Center text */
+    display: inline-block; /* Display as inline block */
+    border-radius: 20px; /* Rounded corners */
+    font-size: 15px; /* Font size */
+    margin: 14px 2px; /* Margin */
+    cursor: pointer; /* Pointer cursor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+
+input,
+textarea {
+    border: none;
+    border-radius: 5px;
+    padding-left: 5px;
+}

@@ -1,0 +1,56 @@
+body {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.recipe-card {
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 20px;
+    margin: 10px 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: auto;
+}
+
+.recipe-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items:first baseline;
+}
+
+.title-description {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.recipe-details {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+}
+
+#id {
+    font-size: 15px;
+    padding-left: 5px;
+}
+.recipe-name {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 900;
+    font-family: inherit;
+}
+.recipe-description {
+    font-size: 15px;
+    margin: 10px 0;
+    font-family: inherit;
+}
+
+.recipe-ingredients {
+    font-size: 14px;
+    font-family: inherit;
+}
