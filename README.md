@@ -3,6 +3,9 @@
 
 # Installation and Usage
 
+## Demo
+[Link](https://drive.google.com/file/d/1HaVrRtmomiElsZgyeBy-d55zdVlbk9y9/view)
+
 ## Django + Database Setup
 * Create virtual environment: ```python3 -m venv .ven```
 * Activate virtual environment: ```. .ven/bin/activate```
