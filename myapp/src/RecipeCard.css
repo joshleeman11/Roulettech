@@ -53,4 +53,7 @@ body {
 .recipe-ingredients {
     font-size: 14px;
     font-family: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
 }

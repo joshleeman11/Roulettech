@@ -13,6 +13,8 @@ const RecipeCard = ({
     editedRecipeDetails,
     setEditedRecipeDetails,
 }) => {
+    const displayIngredients = recipe.ingredients.join(", ");
+    
     return (
         <div className="recipe-card">
             <div className="recipe-header">
@@ -45,7 +47,7 @@ const RecipeCard = ({
                             {recipe.description}
                         </p>
                     ) : (
-                        <input
+                        <textarea
                             type="text"
                             style={{ border: "1px solid #007bff" }}
                             className="recipe-description"
@@ -83,20 +85,19 @@ const RecipeCard = ({
             <p className="recipe-ingredients">
                 <strong style={{ paddingRight: "5px" }}>Ingredients:</strong>
                 {!edit ? (
-                    recipe.ingredients.join(", ")
+                    displayIngredients
                 ) : (
-                    <input
+                    <textarea
                         type="text"
                         style={{ border: "1px solid #007bff" }}
                         id="recipe-ingredients"
-                        value={editedRecipeDetails.ingredients.join(", ")}
+                        value={editedRecipeDetails.ingredients}
                         onChange={(e) => {
                             setEditedRecipeDetails(
                                 (prevEditedRecipeDetails) => ({
                                     ...prevEditedRecipeDetails,
                                     ingredients: e.target.value
-                                        .split(",")
-                                        .map((ingredient) => ingredient.trim()),
+                                        .split(","),
                                 })
                             );
                         }}

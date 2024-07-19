@@ -125,7 +125,8 @@ To edit any individual recipe, click the *marker* icon on the recipe card and ed
     ```
     This allows the back end to receive http requests from the front end
 3. Correct API_URL on front end to point to EC2 instance \
-    ```const API_URL = 'http://54.204.179.85:8000/';```
+    ```const API_URL = 'http://35.153.160.215:8000/';```
+4. Using *systemd* to create a background service that keeps my Django app running after I close the terminal
 
 
 ## AWS CloudFront for CDN
@@ -201,32 +202,3 @@ To edit any individual recipe, click the *marker* icon on the recipe card and ed
 5. Select your key pair name
 6. Select the previously created VPC
 7. Select the previously created private subnet
-8. Disable *Auto-assign publicIP*
-9. We now need to create an internet gateway in order to ssh into the new image of the EC2 instance
-10. Head to the *Internet gateways* dashboard
-11. Click *Create*
-12. Create a name and launch
-13. Click *Attach to a VPC* 
-14. Select previously created VPC
-15. Create a route table 
-16. Head to the *Route tables* dashboard
-17. Click *Create route table*
-18. Create a name
-19. Select previously created VPC
-20. Click *Create route table*
-21. Click *Edit routes*
-22. Add a route that allows any other address that the instance connects with can be forwarded to the newly created internet gateway
-
-
-Create another subnet for load balancer
-
-
-AWS_ACCESS_KEY_ID="REPLACE_WITH_YOUR_KEY" \
-AWS_SECRET_ACCESS_KEY="REPLACE_WITH_YOUR_SECRET" \
-certbot --agree-tos -a certbot-s3front:auth \
---certbot-s3front:auth-s3-bucket REPLACE_WITH_YOUR_BUCKET_NAME \
-[ --certbot-s3front:auth-s3-region your-bucket-region-name ] #(the default is us-east-1, unless you want to set it to something else, you can delete this line) \
-[ --certbot-s3front:auth-s3-directory your-bucket-directory ] # (default is "") \
--i certbot-s3front:installer \
---certbot-s3front:installer-cf-distribution-id REPLACE_WITH_YOUR_CF_DISTRIBUTION_ID \
--d REPLACE_WITH_YOUR_DOMAIN

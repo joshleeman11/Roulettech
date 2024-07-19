@@ -22,13 +22,14 @@ function Recipes() {
         description: "",
         ingredients: [],
     });
+    const [rawIngredients, setRawIngredients] = useState("");
     const [matchedRecipes, setMatchedRecipes] = useState([]);
     const [editRecipeId, setEditRecipeId] = useState(null);
     const [fridgeIngredients, setFridgeIngredients] = useState({});
     const [ingredientCount, setIngredientCount] = useState(0);
 
     // Update front end to point to backend API
-    const API_URL = 'http://35.153.160.215:8000/';
+    const API_URL = "http://35.153.160.215:8000/";
 
     const getRecipes = () => {
         axios
@@ -52,8 +53,15 @@ function Recipes() {
     };
 
     const addRecipe = () => {
+        const normalizedIngredients = rawIngredients
+            .split(",")
+            .map((i) => i.trim())
+            .filter((i) => i.length > 0);
         axios
-            .post(API_URL, recipeDetails)
+            .post(API_URL, {
+                ...recipeDetails,
+                ingredients: normalizedIngredients,
+            })
             .then((res) => {
                 getRecipes();
                 setRecipeDetails({
@@ -61,6 +69,7 @@ function Recipes() {
                     description: "",
                     ingredients: [],
                 });
+                setRawIngredients("");
             })
             .catch((error) => {
                 console.log(error);
@@ -149,7 +158,6 @@ function Recipes() {
         <div className="grid-container">
             <div className="header">
                 <h1>Community Recipes</h1>
-                <Link to="home">Documentation</Link>
             </div>
             <div id="community-recipes">
                 {recipes &&
@@ -189,7 +197,7 @@ function Recipes() {
                 <form onSubmit={handleAddRecipe}>
                     <div className="form-group">
                         <label style={{ marginRight: "7px" }} htmlFor="name">
-                            Name:
+                            Name*:
                         </label>
                         <input
                             type="text"
@@ -213,7 +221,7 @@ function Recipes() {
                             style={{ marginRight: "7px" }}
                             htmlFor="description"
                         >
-                            Description:
+                            Description*:
                         </label>
                         <textarea
                             type="text"
@@ -237,21 +245,14 @@ function Recipes() {
                             style={{ marginRight: "7px" }}
                             htmlFor="ingredients"
                         >
-                            Ingredients:
+                            Ingredients*:
                         </label>
                         <textarea
                             type="text"
                             id="ingredients"
                             placeholder="Enter ingredients (comma separated)"
-                            value={recipeDetails.ingredients}
-                            onChange={(e) => [
-                                setRecipeDetails((prevRecipeDetails) => ({
-                                    ...prevRecipeDetails,
-                                    ingredients: e.target.value
-                                        .split(",")
-                                        .map((ingredient) => ingredient.trim()),
-                                })),
-                            ]}
+                            value={rawIngredients}
+                            onChange={(e) => setRawIngredients(e.target.value)}
                         />
                     </div>
 
