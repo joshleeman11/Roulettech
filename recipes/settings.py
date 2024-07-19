@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-n0)v1z+k))+9vbf9(6zf-nu9(1a91zf5!(h8johj80)sltw5p0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['35.153.160.215', 'http://community-recipes.s3-website.us-east-2.amazonaws.com/']
 
 
 # Application definition
@@ -43,9 +43,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", # Adding corsheaders to middleware list
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware", # Adding corsheaders to middleware list
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -54,6 +54,11 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True # Set CORS to true to allow for communication between React and Django 
+
+CORS_ALLOWED_ORIGINS = [
+    'http://community-recipes.s3-website.us-east-2.amazonaws.com',
+    'https://community-recipes.s3-website.us-east-2.amazonaws.com',
+]
 
 ROOT_URLCONF = "recipes.urls"
 
