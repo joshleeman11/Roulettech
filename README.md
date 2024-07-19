@@ -62,10 +62,10 @@ In the top right of the page, enter a name, description, and ingredients. After 
 In the middle right of the page, enter an id corresponding to a recipe listed in the *Community Recipes*. After clicking *Delete Recipe*, the recipe will be immediately deleted from the *Community Recipes*.
 
 ## Check what recipe to make with given ingredients
-In the bottom right of the page, can click the *+* icon to see a text field where they can enter one ingredient at a time. After clicking *Check*, all the recipes that can be cooked with the ingredients entered will be displayed underneath
+In the bottom right of the page, click the *+* icon to see a text field to enter one ingredient at a time. After clicking *Check*, all the recipes that can be cooked with the ingredients entered will be displayed underneath.
 
 ## Edit any recipe
-To edit any individual recipe, click the *marker* icon on the recipe card and edit the name, description, or ingredients right from the card. After editing, click the *check* icon and your changes will automatically be saved.
+To edit any individual recipe, click the *marker* icon on the recipe card and edit the name, description, or ingredients right from the card. After editing, click the *check* icon and changes will automatically be saved.
 
 # Deployment to AWS
 * Create/log into AWS account in console
@@ -90,17 +90,15 @@ To edit any individual recipe, click the *marker* icon on the recipe card and ed
 * ```ssh -i "<my-key>" ubuntu@ec2-54-204-179-85.compute-1.amazonaws.com``` to log into my remote EC2 instance
 
 #### Setup EC2 instance
-1. Update system: ```sudo apt-get update```
-2. Upgrade system: ```sudo apt-get upgrade```
-3. Install necessary packages
+* Update system: ```sudo apt-get update```
+* Upgrade system: ```sudo apt-get upgrade```
+* Install necessary packages
     > pip: ```sudo apt install python3-pip``` \
     > django ```sudo apt install python3-django``` \
     > djangorestframework ```sudo apt install python3-djangorestframework```\
     > django-cors-headers \
     ```sudo apt install python3-django-cors-headers```\
-    > nginx
-    ```sudo apt-get install nginx```
-4. Send all local back end source code to EC2 instance to run it remotely instead of locally, while ignoring certain directories and files
+* Send all local back end source code to EC2 instance to run it remotely instead of locally, while ignoring certain directories and files
     > Send Django app to a *recipes* directory
     ```
     rsync -avz --exclude 'node_modules' --exclude '.git' --exclude '.env' \
@@ -115,32 +113,32 @@ To edit any individual recipe, click the *marker* icon on the recipe card and ed
     ```
 
 #### Linking front end code in S3 to back end code in EC2
-1. Update *settings.py* in the django app to include \
+* Update *settings.py* in the django app to include \
     ```
     ALLOWED_HOSTS = ['35.153.160.215', 'http://community-recipes.s3-website.us-east-2.amazonaws.com/']
     ```
     This includes both the IP Address of the EC2 instance and the domain name of the S3 bucket to ensure proper communication between the two.
-2. Update *settings.py* in the django app to include \
+* Update *settings.py* in the django app to include \
     ```
     CORS_ALLOWED_ORIGINS = [
     'http://community-recipes.s3-website.us-east-2.amazonaws.com',
     'https://community-recipes.s3-website.us-east-2.amazonaws.com']
     ```
     This allows the back end to receive http requests from the front end
-3. Correct API_URL on front end to point to EC2 instance \
+* Correct API_URL on front end to point to EC2 instance \
     ```const API_URL = 'http://35.153.160.215:8000/';```
-4. Using *systemd* to create a background service that keeps my Django app running after I close the terminal
+* Using *systemd* to create a background service that keeps my Django app running after I close the terminal
 
 
 ## AWS CloudFront for CDN
-1. Head to *CloudFront* dashboard in the AWS console
-2. Click *Create a CloudFront distribution*
-3. Select my s3 bucket as the *origin domain*
-4. Select *Origin access control settings* to allow us to make the bucket private while any access to the files must be done through CloudFront
-5. Click *Create new OAC*
-6. In *Viewer Settings*, select *Redirect HTTP to HTTPS* to enable forwarding and *GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE* to allow users to manage all features of the app
-7. Click *Create distribution*
-8. Copy and edit the s3 bucket policy to give CloudFront access to the files and no one else \
+* Head to *CloudFront* dashboard in the AWS console
+* Click *Create a CloudFront distribution*
+* Select my s3 bucket as the *origin domain*
+* Select *Origin access control settings* to make the bucket private while any access to the files must be done through CloudFront
+* Click *Create new OAC*
+* In *Viewer Settings*, select *Redirect HTTP to HTTPS* to enable forwarding and *GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE* to allow users to manage all features of the app
+* Click *Create distribution*
+* Copy and edit the s3 bucket policy to give CloudFront access to the files and no one else \
     Allow access from http
     ```
     {
@@ -170,38 +168,38 @@ To edit any individual recipe, click the *marker* icon on the recipe card and ed
     
 
 ## Update the code that is served over HTTPS and distributed over CloudFront
-1. I could just reupload my files to my s3 bucket, but since CloudFront uses caching, I won't see any update for ~24 hours.
-2. To update the page immediately , I need to tell my CloudFront distribution that there is an update to the file system and invalidate the caches.
-3. In my CloudFront distrubution dashboard, navigate to the *Invalidations* tab and click *Create invalidation*
-4. Add ```/*``` as my *Object path* to invalidate all the files 
+* I could just reupload my files to my s3 bucket, but since CloudFront uses caching, I won't see any update for ~24 hours.
+* To update the page immediately, tell CloudFront distribution that there is an update to the file system and invalidate the caches.
+* In CloudFront distrubution dashboard, navigate to the *Invalidations* tab and click *Create invalidation*
+* Add ```/*``` as *Object path* to invalidate all the files 
     > To create a CLI command that'll create an invalidation every time I update my code, I added \
     ```"invalidate": "aws cloudfront create-invalidation --distribution-id E1NJH4XQB3DRY0 --paths '/*'",```
 
 ## Creating a custom VPC with one private subnet for EC2
 
 #### Creating custom VPC
-1. Head to *VPC dashboard* in the AWS console
-2. Click *Create VPC*
-3. Select *VPC only*
-4. Create a name
-5. Add an *IPv4 CIDR* (i.e. 10.0.0.0/16)
-6. Click *Create VPC*
+* Head to *VPC dashboard* in the AWS console
+* Click *Create VPC*
+* Select *VPC only*
+* Create a name
+* Add an *IPv4 CIDR* (i.e. 10.0.0.0/16)
+* Click *Create VPC*
 
 #### Creating one private subnet
-1. Head to the *Subnets* tab in the *VPC dashboard*
-2. Click *Create subnet*
-3. Select my previously created custom VPC
-4. Create a name
-5. Choose *Availability Zone* (I chose *us-east-1a*)
-6. Add an *IPv4 subnet CIDR block* (i.e 10.0.1.0/24) (must start with 10.0 to match that of the VPC)
-7. Click *Create subnet*
+* Head to the *Subnets* tab in the *VPC dashboard*
+* Click *Create subnet*
+* Select my previously created custom VPC
+* Create a name
+* Choose *Availability Zone* (I chose *us-east-1a*)
+* Add an *IPv4 subnet CIDR block* (i.e 10.0.1.0/24) (must start with 10.0 to match that of the VPC)
+* Click *Create subnet*
 
 #### Configuring EC2 instance details to be placed into custom VPC
-1. Head to the *EC2 dashboard* 
-2. Create an AMI from my existing EC2 Instance
+* Head to the *EC2 dashboard* 
+* Create an AMI from my existing EC2 Instance
     > Select the instance and click on *Actions* > *Image and Templates* > *Create Image*
-3. Once the AMI is created, click *Launch instance from AMI* 
-4. Create a name
-5. Select your key pair name
-6. Select the previously created VPC
-7. Select the previously created private subnet
+* Once the AMI is created, click *Launch instance from AMI* 
+* Create a name
+* Select your key pair name
+* Select the previously created VPC
+* Select the previously created private subnet
