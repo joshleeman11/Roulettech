@@ -1,10 +1,10 @@
 # Architecture Overview
 ![Architecture Overview](./Roulettech-Architecture-Overview.png)
 
-# Installation and Usage
-
-## Demo
+# Demo
 [Link](https://drive.google.com/file/d/1HaVrRtmomiElsZgyeBy-d55zdVlbk9y9/view)
+
+# Installation and Usage
 
 ## Django + Database Setup
 * Create virtual environment: ```python3 -m venv .ven```
